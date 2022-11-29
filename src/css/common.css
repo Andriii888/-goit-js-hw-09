@@ -16,3 +16,29 @@ img {
   display: block;
   max-width: 100%;
 }
+
+.timer{
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 40px;
+  background-color: rgb(221, 71, 255);
+  margin:50px 600px;
+  padding: 30px 0;
+  border-radius: 6px;
+}
+
+.field{
+display: flex;
+flex-direction: column;
+justify-content: center;
+width: 170px;
+  align-items: center;
+    border-color: purple;
+  background-color: blue;
+    border-radius: 60px;
+
+}
+.value,.field {
+  font-size: 24px;
+}
