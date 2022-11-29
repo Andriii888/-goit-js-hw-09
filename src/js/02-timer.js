@@ -1,5 +1,6 @@
 import flatpickr from "flatpickr";
 import "flatpickr/dist/flatpickr.min.css";
+import Notiflix from 'notiflix';
 
 const inputForTimeRef = document.querySelector('#datetime-picker');
 const startBtnref = document.querySelector('button[data-start]');
@@ -14,7 +15,6 @@ startBtnref.disabled = true;
 let timer = null;
 let currentTime = Date.now();
 
-// setInterval(() => { console.log(currentTime) }, 1000);
 let selectedTime = 0;
 
 const options = {
@@ -25,7 +25,8 @@ const options = {
   onClose(selectedDates) {
     const timeInMSeconds =new Date(selectedDates[0]).getTime();
     if (timeInMSeconds <= currentTime) {
-      window.alert("Please choose a date in the future");
+      Notiflix.Notify.failure('Please choose a date in the future',{timeout: 6000, width: '360px',
+    svgSize: '120px',borderRadius: '8px',position: 'center-center',});
     } else {
       startBtnref.disabled = false;
       selectedTime = timeInMSeconds;
@@ -40,20 +41,27 @@ function onStartBtn() {
     let currentTime = new Date();
     let timerTime = selectedTime - currentTime;
     if (timerTime < 0) {
+      Notiflix.Notify.failure('Your time is up',{timeout: 6000, width: '460px',
+    svgSize: '120px',borderRadius: '8px',position: 'center-center',});
       return clearInterval(timer);
+
     }
-    
+
     const { days, hours, minutes, seconds } = convertMs(timerTime);
-    timerTextDaysRef.textContent= `${days}`;
-    timerTextHoursRef.textContent= `${hours}`;
-    timerTextMinutesRef.textContent= `${minutes}`;
-    timerTextSecondsRef.textContent= `${seconds}`;
+    timerTextDaysRef.textContent = addLeadingZero(days);
+    timerTextHoursRef.textContent = addLeadingZero(hours);
+    timerTextMinutesRef.textContent = addLeadingZero(minutes);
+    timerTextSecondsRef.textContent = addLeadingZero(seconds);
 
 
   }, 1000)
 };
 
 flatpickr(inputForTimeRef, options);
+
+function addLeadingZero(value) {
+return  String(value).padStart(2, '0');
+};
 
 function convertMs(ms) {
   // Number of milliseconds per unit of time
