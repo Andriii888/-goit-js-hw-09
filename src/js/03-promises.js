@@ -19,10 +19,10 @@ formRef.addEventListener('submit', (e) => {
         position = i;
         
         if (i > 1) {
-          time = obj.step * 1000;
+          time = obj.step;
     };
         if (i === 1) {
-          time = obj.delay * 1000;
+          time = obj.delay;
     };
      
   createPromise(position, obj.delay).then(({ position, delay }) => {
