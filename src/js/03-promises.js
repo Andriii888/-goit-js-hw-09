@@ -8,29 +8,44 @@ function onChangePromise(e) {
   const name = e.target.name;
   const value = e.target.value;
   obj[name] = value;
-  console.log(obj)
+      console.log(obj);
+
 };
+let time;
+let position;
+formRef.addEventListener('submit', (e) => {
+  e.preventDefault();
+  for (let i = 1; i <= obj.amount; i += 1) {
+        position = i;
+        
+        if (i > 1) {
+          time = obj.step * 1000;
+    };
+        if (i === 1) {
+          time = obj.delay * 1000;
+    };
+     
+  createPromise(position, obj.delay).then(({ position, delay }) => {
+    Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
+  })
+    .catch(({ position, delay }) => {
+      Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`);
+    })
+  }
+});
 
-formRef.addEventListener('submit', createPromise());
-
-function createPromise (position, delay) {
-  return new Promise((resolve, reject) => {
+function createPromise(position, delay) {
+  console.log(time);
+     return new Promise((resolve, reject) => {
     const shouldResolve = Math.random() > 0.3;
-    const timerId = setTimeout(() => {
+    const timerId = setInterval(() => {
       if (shouldResolve) {
         resolve({ position, delay })
       } else {
         reject({ position, delay })
       }
-    }, obj.delay);
-  })
+    }, time);
+     })
+  };
   
-};
 
-createPromise(obj)
-  .then(({ position, delay }) => {
-    console.log(`✅ Fulfilled promise ${position} in ${delay}ms`);
-  })
-  .catch(({ position, delay }) => {
-    console.log(`❌ Rejected promise ${position} in ${delay}ms`);
-  });
