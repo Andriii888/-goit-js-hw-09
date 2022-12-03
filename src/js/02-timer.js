@@ -38,6 +38,7 @@ startBtnref.addEventListener('click', onStartBtn);
 
 function onStartBtn() {
   startBtnref.disabled = true;
+  inputForTimeRef.disabled = true;
   timer = setInterval(() => {
     let currentTime = new Date();
     let timerTime = selectedTime - currentTime;
